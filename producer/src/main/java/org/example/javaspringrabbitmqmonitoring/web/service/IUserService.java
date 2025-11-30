@@ -2,9 +2,10 @@ package org.example.javaspringrabbitmqmonitoring.web.service;
 
 
 import org.example.javaspringrabbitmqmonitoring.web.output.UserLoginResponse;
+import org.example.javaspringrabbitmqmonitoring.web.output.UserLogoutResponse;
 
 public interface IUserService {
     UserLoginResponse login(String username, String password);
 
-    void logout(String username);
+    UserLogoutResponse logout(String username);
 }

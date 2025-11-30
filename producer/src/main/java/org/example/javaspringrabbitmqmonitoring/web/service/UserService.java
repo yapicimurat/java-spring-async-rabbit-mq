@@ -1,21 +1,29 @@
 package org.example.javaspringrabbitmqmonitoring.web.service;
 
-import org.example.javaspringrabbitmqmonitoring.rabbitmq.DefaultLogService;
+import org.example.javaspringrabbitmqmonitoring.web.common.LogMessage;
 import org.example.javaspringrabbitmqmonitoring.web.common.LogType;
 import org.example.javaspringrabbitmqmonitoring.web.output.UserLoginResponse;
+import org.example.javaspringrabbitmqmonitoring.web.output.UserLogoutResponse;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService extends DefaultLogService implements IUserService {
+public class UserService implements IUserService {
+
+    private final LogProducer logProducer;
+
+    public UserService(LogProducer logProducer) {
+        this.logProducer = logProducer;
+    }
 
     @Override
     public UserLoginResponse login(String username, String password) {
-        logToFile(LogType.USER_LOGIN, username);
+        logProducer.send(new LogMessage(LogType.USER_LOGIN, "User login."));
         return new UserLoginResponse(true);
     }
 
     @Override
-    public void logout(String username) {
-
+    public UserLogoutResponse logout(String username) {
+        logProducer.send(new LogMessage(LogType.USER_LOGOUT, "User logout."));
+        return new UserLogoutResponse(true);
     }
 }
